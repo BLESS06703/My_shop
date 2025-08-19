@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlessShop | Premium Electronics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#10B981',
+            dark: '#1F2937',
+            darker: '#111827'
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .product-card:hover .product-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .cart-badge {
+      font-size: 0.6rem;
+    }
+    .smooth-transition {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header/Navigation -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-bolt text-primary text-2xl"></i>
+        <span class="text-xl font-bold text-darker">Bless<span class="text-primary">Shop</span></span>
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="#home" class="font-medium hover:text-primary smooth-transition">Home</a>
+        <a href="#products" class="font-medium hover:text-primary smooth-transition">Products</a>
+        <a href="#" class="font-medium hover:text-primary smooth-transition">Deals</a>
+        <a href="#" class="font-medium hover:text-primary smooth-transition">About</a>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <div class="relative hidden sm:block">
+          <input type="text" id="search" class="bg-gray-100 rounded-full py-2 px-4 pl-10 w-64 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Search products...">
+          <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        </div>
+        
+        <div class="relative cursor-pointer group">
+          <i class="fas fa-shopping-cart text-xl text-darker group-hover:text-primary smooth-transition"></i>
+          <span id="cart-count" class="cart-badge absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">0</span>
+          <div class="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl p-4 hidden group-hover:block z-50">
+            <p class="text-center text-gray-500">Your cart is empty</p>
+          </div>
+        </div>
+        
+        <button class="md:hidden text-darker" id="mobile-menu-button">
+  <i class="fas fa-bars text-xl"></i>
+</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="bg-gradient-to-r from-dark to-darker text-white py-20">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-10 md:mb-0">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Premium Electronics <span class="text-primary">Collection</span></h1>
+        <p class="text-xl mb-6 text-gray-300">Discover the latest tech gadgets with unbeatable prices and exceptional quality.</p>
+        <div class="flex space-x-4">
+          <a href="#products" class="bg-primary hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg smooth-transition">Shop Now</a>
+          <a href="#" class="bg-transparent border border-white hover:bg-white hover:text-dark text-white font-medium py-3 px-6 rounded-lg smooth-transition">Learn More</a>
+        </div>
+      </div>
+      <div class="md:w-1/2 flex justify-center">
+        <div class="relative w-full max-w-md">
+          <div class="absolute -top-10 -left-10 w-32 h-32 bg-primary rounded-full opacity-20 animate-pulse-slow"></div>
+          <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary rounded-full opacity-20 animate-pulse-slow"></div>
+          <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Electronics Collection" class="relative z-10 rounded-lg shadow-2xl w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-12">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Filters Sidebar -->
+      <aside class="lg:w-1/5 bg-white p-6 rounded-lg shadow-sm sticky top-24 h-fit">
+        <h2 class="text-xl font-bold mb-6 text-darker border-b pb-2">Filters</h2>
+        
+        <div class="mb-6">
+          <h3 class="font-medium mb-3 flex justify-between items-center">
+            <span>Categories</span>
+            <i class="fas fa-chevron-down text-xs"></i>
+          </h3>
+          <div id="filters-container" class="space-y-2">
+            <div class="flex items-center">
+              <input type="checkbox" id="cameras" class="rounded text-primary focus:ring-primary">
+              <label for="cameras" class="ml-2 text-gray-600">Cameras</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="smartphones" class="rounded text-primary focus:ring-primary">
+              <label for="smartphones" class="ml-2 text-gray-600">Smartphones</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="games" class="rounded text-primary focus:ring-primary">
+              <label for="games" class="ml-2 text-gray-600">Games</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="televisions" class="rounded text-primary focus:ring-primary">
+              <label for="televisions" class="ml-2 text-gray-600">Televisions</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <h3 class="font-medium mb-3 flex justify-between items-center">
+            <span>Price Range</span>
+            <i class="fas fa-chevron-down text-xs"></i>
+          </h3>
+          <div class="space-y-2">
+            <div class="flex items-center">
+              <input type="radio" name="price" id="price-all" class="rounded text-primary focus:ring-primary" checked>
+              <label for="price-all" class="ml-2 text-gray-600">All Prices</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" name="price" id="price-low" class="rounded text-primary focus:ring-primary">
+              <label for="price-low" class="ml-2 text-gray-600">$0 - $500</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" name="price" id="price-medium" class="rounded text-primary focus:ring-primary">
+              <label for="price-medium" class="ml-2 text-gray-600">$500 - $1000</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" name="price" id="price-high" class="rounded text-primary focus:ring-primary">
+              <label for="price-high" class="ml-2 text-gray-600">$1000+</label>
+            </div>
+          </div>
+        </div>
+        
+        <button class="w-full bg-primary hover:bg-blue-600 text-white py-2 rounded-lg smooth-transition">
+          Apply Filters
+        </button>
+      </aside>
+
+      <!-- Products Section -->
+      <section id="products" class="lg:w-4/5">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl font-bold text-darker">Featured Products</h2>
+          <div class="flex items-center space-x-2">
+            <span class="text-gray-600">Sort by:</span>
+            <select class="bg-white border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-primary">
+              <option>Popularity</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest First</option>
+            </select>
+          </div>
+        </div>
+        
+        <div id="product-wrapper" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Products will be inserted here by JavaScript -->
+        </div>
+        
+        <div class="mt-12 flex justify-center">
+          <button class="bg-white border border-primary text-primary hover:bg-primary hover:text-white font-medium py-2 px-6 rounded-lg smooth-transition">
+            Load More
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Features Section -->
+  <section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-darker mb-4">Why Choose  BlessShop?</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">We provide premium quality electronics with exceptional customer service and fast delivery.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+          <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-shipping-fast text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Fast Delivery</h3>
+          <p class="text-gray-600">Get your products delivered within 2-3 business days with our express shipping.</p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+          <div class="w-16 h-16 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-shield-alt text-secondary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Quality Guarantee</h3>
+          <p class="text-gray-600">All our products come with a 2-year warranty and 30-day money-back guarantee.</p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+          <div class="w-16 h-16 bg-yellow-500 bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-headset text-yellow-500 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">24/7 Support</h3>
+          <p class="text-gray-600">Our customer support team is available round the clock to assist you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="bg-dark text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+      <p class="text-gray-300 mb-8 max-w-2xl mx-auto">Subscribe to our newsletter to receive exclusive offers and updates on new products.</p>
+      
+      <div class="max-w-md mx-auto flex">
+        <input type="email" placeholder="Your email address" class="flex-grow py-3 px-4 rounded-l-lg focus:outline-none text-dark">
+        <button class="bg-primary hover:bg-blue-600 py-3 px-6 rounded-r-lg font-medium smooth-transition">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-darker text-gray-300 py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <i class="fas fa-bolt text-primary text-2xl"></i>
+            <span class="text-xl font-bold text-white">Bless<span class="text-primary">Shop</span></span>
+          </div>
+          <p class="mb-4">Premium electronics for your modern lifestyle.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white smooth-transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white smooth-transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white smooth-transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white smooth-transition"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-medium mb-4">Shop</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white smooth-transition">All Products</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Featured</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">New Arrivals</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Sale Items</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-medium mb-4">Company</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white smooth-transition">About Us</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Careers</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Blog</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-medium mb-4">Help</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white smooth-transition">FAQs</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Shipping</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Returns</a></li>
+            <li><a href="#" class="hover:text-white smooth-transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
+        <p>&copy; 2023 BlesssShop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const products = [
+      {
+        name: 'Sony PlayStation 5',
+        url: 'https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80',
+        category: 'games',
+        price: 499.99,
+        rating: 4.8,
+        reviews: 1245,
+        isNew: true
+      },
+      {
+        name: 'Canon EOS 1500D',
+        url: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80',
+        category: 'cameras',
+        price: 399.99,
+        rating: 4.6,
+        reviews: 892,
+        isNew: false
+      },
+      {
+        name: 'Nikon D3500',
+        url: 'https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80',
+        category: 'cameras',
+        price: 499.99,
+        rating: 4.7,
+        reviews: 756,
+        isNew: true
+      },
+      {
+        name: 'iPhone 12 Pro',
+        url: 'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+        category: 'smartphones',
+        price: 799.99,
+        rating: 4.9,
+        reviews: 2156,
+        isNew: false
+      },
+      {
+        name: 'Samsung Galaxy S21',
+        url: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
+        category: 'smartphones',
+        price: 999.99,
+        rating: 4.7,
+        reviews: 1832,
+        isNew: true
+      },
+      {
+        name: 'LG OLED55CXPUA',
+        url: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+        category: 'televisions',
+        price: 1299.99,
+        rating: 4.9,
+        reviews: 943,
+        isNew: false
+      },
+      {
+        name: 'Sony Bravia X900H',
+        url: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1557&q=80',
+        category: 'televisions',
+        price: 1199.99,
+        rating: 4.8,
+        reviews: 876,
+        isNew: true
+      },
+      {
+        name: 'Xbox Series X',
+        url: 'https://images.unsplash.com/photo-1637775292249-1825e3a60838?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+        category: 'games',
+        price: 499.99,
+        rating: 4.7,
+        reviews: 1342,
+        isNew: false
+      }
+    ];
+
+    const productWrapper = document.getElementById('product-wrapper');
+    const checkBoxes = document.querySelectorAll('#filters-container input');
+    const searchInput = document.getElementById('search');
+    const cartCount = document.getElementById('cart-count');
+    let cartItemCount = 0;
+
+    const productElements = [];
+
+    // Initialize the shop
+    function initShop() {
+      products.forEach((product) => {
+        const productElement = createProductElement(product);
+        productElements.push(productElement);
+        productWrapper.appendChild(productElement);
+      });
+      
+      // Add event listeners
+      document.querySelectorAll('#filters-container input').forEach(checkbox => {
+        checkbox.addEventListener('change', filterProducts);
+      });
+      
+      searchInput.addEventListener('input', filterProducts);
+    }
+
+  // Mobile menu toggle
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.createElement('div');
+mobileMenu.className = 'hidden md:hidden absolute top-16 left-0 right-0 bg-white shadow-lg py-2 px-4 z-50';
+mobileMenu.id = 'mobile-menu';
+
+mobileMenu.innerHTML = `
+  <a href="#home" class="block py-2 hover:text-primary smooth-transition">Home</a>
+  <a href="#products" class="block py-2 hover:text-primary smooth-transition">Products</a>
+  <a href="#" class="block py-2 hover:text-primary smooth-transition">Deals</a>
+  <a href="#" class="block py-2 hover:text-primary smooth-transition">About</a>
+`;
+
+document.body.appendChild(mobileMenu);
+
+mobileMenuButton.addEventListener('click', () => {
+  mobileMenu.classList.toggle('hidden');
+});
+    // Create product card element
+    function createProductElement(product) {
+      const productElement = document.createElement('div');
+      productElement.className = 'product-card bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md smooth-transition';
+      
+      // Generate star rating
+      const stars = [];
+      const fullStars = Math.floor(product.rating);
+      const hasHalfStar = product.rating % 1 >= 0.5;
+      
+      for (let i = 0; i < 5; i++) {
+        if (i < fullStars) {
+          stars.push('<i class="fas fa-star text-yellow-400"></i>');
+        } else if (i === fullStars && hasHalfStar) {
+          stars.push('<i class="fas fa-star-half-alt text-yellow-400"></i>');
+        } else {
+          stars.push('<i class="far fa-star text-yellow-400"></i>');
+        }
+      }
+      
+      productElement.innerHTML = `
+        <div class="relative">
+          <img src="${product.url}" alt="${product.name}" class="w-full h-48 object-cover">
+          ${product.isNew ? '<span class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">NEW</span>' : ''}
+          <div class="product-actions absolute top-2 right-2 opacity-0 transform translate-y-2 smooth-transition">
+            <button class="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:bg-primary hover:text-white smooth-transition">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-lg mb-1">${product.name}</h3>
+          <div class="flex items-center mb-2">
+            <div class="flex mr-2">
+              ${stars.join('')}
+            </div>
+            <span class="text-gray-500 text-sm">(${product.reviews})</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-lg">$${product.price.toFixed(2)}</span>
+            <button class="add-to-cart bg-primary hover:bg-blue-600 text-white py-1 px-3 rounded-lg text-sm smooth-transition">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      `;
+      
+      productElement.querySelector('.add-to-cart').addEventListener('click', () => updateCart(productElement, product));
+      return productElement;
+    }
+
+    // Update cart function
+    function updateCart(productElement, product) {
+      const cartBtn = productElement.querySelector('.add-to-cart');
+      
+      if (cartBtn.classList.contains('added')) {
+        cartBtn.innerHTML = '<i class="fas fa-shopping-cart mr-1"></i> Add to Cart';
+        cartBtn.classList.remove('added', 'bg-gray-600');
+        cartBtn.classList.add('bg-primary', 'hover:bg-blue-600');
+        cartItemCount--;
+      } else {
+        cartBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Added';
+        cartBtn.classList.add('added', 'bg-gray-600');
+        cartBtn.classList.remove('bg-primary', 'hover:bg-blue-600');
+        cartItemCount++;
+        
+        // Show a quick confirmation
+        const confirmation = document.createElement('div');
+        confirmation.className = 'absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-1 rounded-lg text-sm animate-bounce';
+        confirmation.textContent = 'Added to cart!';
+        productElement.appendChild(confirmation);
+        
+        setTimeout(() => {
+          confirmation.remove();
+        }, 2000);
+      }
+      
+      cartCount.textContent = cartItemCount;
+      updateCartTooltip();
+    }
+
+    // Update cart tooltip content
+    function updateCartTooltip() {
+      const cartTooltip = document.querySelector('.group-hover\\:block');
+      if (cartItemCount > 0) {
+        cartTooltip.innerHTML = `
+          <div class="font-medium mb-2">Your Cart (${cartItemCount})</div>
+          <button class="w-full bg-primary hover:bg-blue-600 text-white py-2 rounded-lg mt-2">
+            Checkout
+          </button>
+        `;
+      } else {
+        cartTooltip.innerHTML = '<p class="text-center text-gray-500">Your cart is empty</p>';
+      }
+    }
+
+    // Filter products based on search and filters
+    function filterProducts() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const checkedCategories = Array.from(checkBoxes)
+        .filter((check) => check.checked)
+        .map((check) => check.id);
+      
+      // Get price range filter
+      const priceFilter = document.querySelector('input[name="price"]:checked').id;
+      
+      productElements.forEach((productElement, index) => {
+        const product = products[index];
+        const matchesSearchTerm = product.name.toLowerCase().includes(searchTerm);
+        const isInCheckedCategory = checkedCategories.length === 0 || checkedCategories.includes(product.category);
+        const matchesPriceRange = 
+          priceFilter === 'price-all' ||
+          (priceFilter === 'price-low' && product.price <= 500) ||
+          (priceFilter === 'price-medium' && product.price > 500 && product.price <= 1000) ||
+          (priceFilter === 'price-high' && product.price > 1000);
+        
+        if (matchesSearchTerm && isInCheckedCategory && matchesPriceRange) {
+          productElement.classList.remove('hidden');
+        } else {
+          productElement.classList.add('hidden');
+        }
+      });
+    }
+
+    // Initialize the shop when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initShop);
+  </script>
+</body>
+</html>
